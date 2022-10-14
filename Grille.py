@@ -114,6 +114,37 @@ class Grille():
                         
             return nb_config
 
+    def eq_grille_donnee_grille_genere (self):
+        Grilleg= Grille.genere_grille()
+        nb_grilleg=1
+        print (self.eq(self,Grilleg))
+        while (not(self.eq(self,Grilleg))) :
+            nb_grilleg+=1
+            Grilleg= Grille.genere_grille()
+
+        return nb_grilleg 
+
+ 
+
+    @staticmethod
+    def genere_grille_de_bateau(bateaux) :
+        np.random.seed(1)
+        grille = Grille()
+        for bateau in bateaux :
+           grille.place_alea(bateau)
+        return grille
+
+
+    def approximer_nb_grille(self,bateaux) :
+        nb_grille=1
+        grille_compare = Grille.genere_grille_de_bateau(bateaux)
+        print (nb_grille)
+
+        while (not(self.eq(self,grille_compare))) :
+            nb_grille+=1
+            grille_compare = Grille.genere_grille_de_bateau(bateaux)
+            print (nb_grille)
+        return nb_grille
 
 
 # %%
