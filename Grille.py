@@ -25,7 +25,7 @@ class Grille():
             Création d'une grille vide
         """
         self.N= N 
-        self.matrice = np.zeros((N,N,4)).astype(int)
+        self.matrice = np.zeros((N,N,3)).astype(int)
             
     """
         Dans ce code : 
@@ -65,13 +65,13 @@ class Grille():
             for i in range (nb_case) :
                 if direction==1 : 
                     self.matrice[x][y+i][0] = bateau
-                    self.matrice[x][y+i][3] = i
-                    self.matrice[x][y+i][2] = direction
+                    self.matrice[x][y+i][1] = direction
+                    self.matrice[x][y+i][2] = i
 
                 else:
                     self.matrice[x+i][y][0] = bateau
-                    self.matrice[x+i][y][3] = i
-                    self.matrice[x+i][y][2] = direction
+                    self.matrice[x+i][y][1] = direction
+                    self.matrice[x+i][y][2] = i
             return True 
         else : 
             return False

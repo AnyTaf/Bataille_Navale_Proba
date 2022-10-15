@@ -16,7 +16,7 @@ class Bataille():
         cpt = 0
         for i in range(self.grille.N):
             for j in range(self.grille.N):
-                if bateau == self.grille.matrice[i][j][0] and self.grille.matrice[i][j][1] == 0:
+                if bateau == self.grille.matrice[i][j][0]:
                     cpt +=1
         return cpt
 
@@ -28,15 +28,14 @@ class Bataille():
             return 1, positions
         else : 
             bateau = self.grille.matrice[x][y][0]
-            self.grille.matrice[x][y][1] = -1
+            self.grille.matrice[x][y][0] = -1
             if self.nb_case(bateau) == 0 :
                 #print("Coulé ", position)
                 b = bateaux[bateau-1]
-                print(position," ",b,"  ", self.bateaux_non_coule)
                 self.bateaux_non_coule.remove(b)
                 nb_case = bateaux[bateau-1][1]
-                direction = self.grille.matrice[x][y][2]
-                n =  self.grille.matrice[x][y][3]
+                direction = self.grille.matrice[x][y][1]
+                n =  self.grille.matrice[x][y][2]
                 for i in range(nb_case):
                     if direction == 1 :
                         positions.append((x,y-n+i))
