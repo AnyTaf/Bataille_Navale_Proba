@@ -99,16 +99,74 @@ class Joueur():
                             
         return matrice 
 
+"""les graphiques de distribution de la version aleatoire du jeux"""
+
+
+#les graphiques de distribution de la version aleatoire du jeux
+distribution_aleatoire=[]
+"""
+on cree une liste vide on la remplie a chaque fois qu'on joue pour former la distibution
+on calcule la distribution pour 1000 fois joué
+"""
+for i in range(1,1001):
+    joueur1 = Joueur()
+    bataille1=Bataille()
+    nb_coup=joueur1.joue_aleatoire(bataille1)
+    distribution_aleatoire.append(nb_coup)
+plt.hist(distribution_aleatoire)
+plt.xlabel('nombre de coup')
+plt.ylabel("nombre d'occurence de jouer aleatoirement")
+plt.show()
+
+
+
+
+
+#les graphiques de distribution de la version heuristique du jeux
+distribution_heuristique=[]
+""" 
+on cree une liste vide on la remplie a chaque fois qu'on joue pour former la distibution
+on calcule la distribution pour 1000 fois joué
+"""
+for i in range(1,1001):
+    joueur1 = Joueur()
+    bataille1=Bataille()
+    nb_coup=joueur1.joue_heuristique(bataille1)
+    distribution_heuristique.append(nb_coup)
+plt.hist(distribution_heuristique)
+plt.xlabel('nombre de coup')
+plt.ylabel("nombre d'occurence de jouer à la version heuristique")
+plt.show()
+
+
+#les graphiques de distribution de la version simplifiée du jeux
+distribution_simplifie=[]
+"""
+on cree une liste vide on la remplie a chaque fois qu'on joue pour former la distibution
+on calcule la distribution pour 1000 fois joué
+"""
+for i in range(1,1001):
+    joueur1 = Joueur()
+    bataille1=Bataille()
+    nb_coup=joueur1.joue_simplifie(bataille1)
+    distribution_simplifie.append(nb_coup)
+plt.hist(distribution_simplifie)
+plt.xlabel('nombre de coup')
+plt.ylabel("nombre d'occurence de jouer à la version simplifiée")
+plt.show()
+
+
+print ("nombre de coups avec les differentes versions ")
 b = Bataille()
 j = Joueur()
-print(j.joue_aleatoire(b))
+print("nb coup version aleatoire",j.joue_aleatoire(b))
 
 b.reset()
 j.reset()
-print(j.joue_heuristique(b))
+print("nb coup version heuristique",j.joue_heuristique(b))
 
 b.reset()
 j.reset()
 
-print(j.joue_simplifie(b))
+print("nb coup version simplifié",j.joue_simplifie(b))
 

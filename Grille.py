@@ -29,15 +29,25 @@ class Grille():
             
     """
         Dans ce code : 
-            1) une case de la grille contient :
-                0 si elle est vide
-                -1 si elle a était touché
-                sinon un entier qui représente l'identifiant du bateau qui l'occupe
+            1) Chaque case d'une  grille est représentée par un 3-uplet:
+                    le premier élèment contient :
+                        0 si la case est vide
+                        -1 si elle a était touché
+                        sinon un entier qui représente l'identifiant du bateau qui l'occupe
+                    le deuxiéme élèment conient :
+                        0 si la case est vide
+                        sinon la direction du bateau placé dans cette case (1 ou 2)
+                    le troisième élèment contient :
+                        0 si la case est vide
+                        sinon l'entier i qui représente la iéme case du bateau placé dans cette case
             2) la direction est codée par un entier :
                 1 pour horizentale
                 2 pour verticale
     """
     def peut_placer(self, bateau, position, direction):
+            """
+                cette fonction return True si le bateau peut etre placé sur la grille dans position avec une certaine direction, False sinon
+            """
             x , y = position  
             if bateau < 1 or bateau > 5 :
                 print("Mauvaise entrée pour le bateau")
@@ -59,6 +69,9 @@ class Grille():
             return True 
 
     def place(self, bateau, position, direction) : 
+        """
+            cette fonction permet de placer un bateau sur la grille si on peut et retourne True, False sinon
+        """
         if (self.peut_placer( bateau, position, direction) ):
             x , y = position 
             nb_case = bateaux[bateau-1][1]
@@ -77,32 +90,60 @@ class Grille():
             return False
 
     def place_alea(self, bateau) :
+        """
+            cette fonction permet de placer un bateau aléatoirement sur la grille
+        """
         position=np.random.randint(10) , np.random.randint(10)
         direction=np.random.randint(1,3)
         while not self.place( bateau, position, direction) :
             position=np.random.randint(10) , np.random.randint(10)
             direction=np.random.randint(1,3)
 
-    def affiche(self) : 
-        plt.imshow(self.matrice, cmap = 'Greens')
+    def affiche(self) :
+        """
+            cette fonction permet d'afficher la grille
+        """ 
+        mat = [[self.matrice[i][j][0] for i in range(self.N)] for j in range(self.N)]
+        mat = np.array(mat).astype(int)
+        plt.imshow(mat, cmap = 'Greens')
 
     @staticmethod
     def eq (grilleA, grilleB) :
+        """
+            cette fonction return true su grilleA=grilleB, false sinon
+        """
         return np.array_equal(grilleA.matrice ,grilleB.matrice)
 
     @staticmethod
     def genere_grille() :
+        """
+            cette fonction retourne une grille avec les bateaux placés aléatoirement 
+        """
         grille = Grille()
         for i in range (1,6) :
            grille.place_alea(i)
         return grille
+    
+    def denombrement_bateau(self, bateau):
+        """
+            cette fonction return le nombre de dispositions possibles pour un bateau dans une grille
+        """
+        cpt=0
+        for i in range(self.N):
+            for j in range(self.N):
+                for k in range(1,3):
+                    if self.peut_placer(bateau,(i,j),k):
+                        cpt+=1
+        return cpt
 
     def nb_places(self, bateaux ):
+        """
+            cette fonction retourne le nombre de configurations possibles d'une grille 
+        """
         if len(bateaux)==0 :
             return 1
         else :
             nb_config = 0
-            nb_case = bateaux[bateaux[0]-1][1]
             for i in range(self.N):
                 for j in range(self.N):
                     for k in range(1,3):
@@ -117,7 +158,6 @@ class Grille():
     def eq_grille_donnee_grille_genere (self):
         Grilleg= Grille.genere_grille()
         nb_grilleg=1
-        print (self.eq(self,Grilleg))
         while (not(self.eq(self,Grilleg))) :
             nb_grilleg+=1
             Grilleg= Grille.genere_grille()
@@ -138,8 +178,6 @@ class Grille():
     def approximer_nb_grille(self,bateaux) :
         nb_grille=1
         grille_compare = Grille.genere_grille_de_bateau(bateaux)
-        print (nb_grille)
-
         while (not(self.eq(self,grille_compare))) :
             nb_grille+=1
             grille_compare = Grille.genere_grille_de_bateau(bateaux)
@@ -147,4 +185,27 @@ class Grille():
         return nb_grille
 
 
+##MAIN
+grilleA = Grille.genere_grille()
+grilleA.affiche()
+
+grilleB = Grille.genere_grille()
+grilleB.affiche()
+
+b = Grille.eq(grilleA,grilleB)
+if b :
+    print("grilleA = grilleB")
+else :
+    print("grilleA <> grilleB")
+
+grilleC = Grille()
+grilleD = Grille()
+grilleE = Grille()
+print("En testant la fonction qui calcul le nombre de configurations possibles sur des listes de 1, 2, 3 bateaux on aura les résultats suivant ")
+print("1 Porte-Avion : ", grilleC.nb_places([1])," dispositions.")
+print("1 Porte-Avion + 1 Croiseur : ", grilleD.nb_places([1,2])," dispositions.")
+print("1 Porte-Avion + 1 Croiseur + 1 Contre-Torpilleur : ", grilleE.nb_places([1,2,3])," dispositions.")
+
+#n = grilleA.eq_grille_donnee_grille_genere()
+#print("Le nombre de grille générées pour trouver une grille égale à grilleA est : ",n)
 # %%
